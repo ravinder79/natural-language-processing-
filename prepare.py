@@ -45,13 +45,9 @@ def remove_stopwords(string, extra_words = '',exclude_words = ''):
     words = string.split()
     filtered_words = [w for w in words if w not in stopword_list]
 
-    print('Removed {} stopwords'.format(len(words) - len(filtered_words)))
-    print('---')
-
     article_without_stopwords = ' '.join(filtered_words)
 
     return article_without_stopwords
-
 
 
 def prep_article(article):
@@ -64,9 +60,16 @@ def prep_article(article):
     lemmatized = lemmatize(article1)
     cleaned =  remove_stopwords(article1)  
                            
+    dt.update({'category': article['topic']})
     dt.update({'title': article['title']})
     dt.update({'original': article['content']})
     dt.update({'stemmed': stemmed})
     dt.update({'lemmatized': lemmatized})
-    dt.update({'clean': cleaned})
+    dt.update({'clean': cleaned})    
     return dt
+
+def prepare_article_data(list):
+    l = []
+    for i in range(len(list)):
+        l.append(prep_article(list[i]))
+    return l
